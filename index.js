@@ -29,9 +29,9 @@ async function run() {
       .db("Tourist_SportsDB")
       .collection("All_Spots");
       const UserCollection = client.db("Tourist_SportsDB").collection('Users')
-    const BangladeshCollection = client
+    const CountriesCollection = client
       .db("Tourist_SportsDB")
-      .collection("Bangladesh");
+      .collection("Countries");
 
     app.get("/Tourist_Sports", async (req, res) => {
       const query = Tourist_Sport_Collection.find();
@@ -40,6 +40,11 @@ async function run() {
     });
     app.get("/Users", async (req, res) => {
       const query = UserCollection.find();
+      const result = await query.toArray();
+      res.send(result);
+    });
+    app.get("/Countries", async (req, res) => {
+      const query = CountriesCollection.find();
       const result = await query.toArray();
       res.send(result);
     });
