@@ -28,9 +28,18 @@ async function run() {
     const Tourist_Sport_Collection = client
       .db("Tourist_SportsDB")
       .collection("All_Spots");
+      const UserCollection = client.db("Tourist_SportsDB").collection('Users')
+    const BangladeshCollection = client
+      .db("Tourist_SportsDB")
+      .collection("Bangladesh");
 
     app.get("/Tourist_Sports", async (req, res) => {
       const query = Tourist_Sport_Collection.find();
+      const result = await query.toArray();
+      res.send(result);
+    });
+    app.get("/Users", async (req, res) => {
+      const query = UserCollection.find();
       const result = await query.toArray();
       res.send(result);
     });
@@ -63,7 +72,6 @@ async function run() {
 
     app.get("/My_List/:email", async (req, res) => {
         const email = req.params.email;
-        console.log(email);
         const query = {userEmail:email};
         const result = await Tourist_Sport_Collection.find(query).toArray();
         console.log(result);
@@ -72,8 +80,13 @@ async function run() {
 
     app.post("/Tourist_Sports", async (req, res) => {
       const Sports = req.body;
-      console.log(Sports);
       const result = await Tourist_Sport_Collection.insertOne(Sports);
+      res.send(result);
+    });
+
+    app.post("/Users", async (req, res) => {
+      const User = req.body;
+      const result = await UserCollection.insertOne(User);
       res.send(result);
     });
 
