@@ -38,11 +38,46 @@ async function run() {
       const result = await query.toArray();
       res.send(result);
     });
-    app.get("/Users", async (req, res) => {
-      const query = UserCollection.find();
-      const result = await query.toArray();
-      res.send(result);
+
+    app.get("/Our-client", async (req, res) => {
+      try {
+        const pipeline = [
+          {
+            $match: {
+              userEmail: { $ne: null, $exists: true }
+            }
+          },
+          {
+            $group: {
+              _id: "$userEmail",
+              userEmail: { $first: "$userEmail" },
+              userName: { $first: "$userName" }
+            }
+          },
+          {
+            $sort: { userEmail: 1 }
+          },
+          {
+            $project: {
+              _id: 0,
+              userEmail: 1,
+              userName: 1
+            }
+          }
+        ];
+    
+        const cursor = Tourist_Sport_Collection.aggregate(pipeline);
+        const result = await cursor.toArray();
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching client data:", error);
+        res.status(500).send("Internal Server Error");
+      }
     });
+    
+    
+    
+
     app.get("/Countries", async (req, res) => {
       const query = CountriesCollection.find();
       const result = await query.toArray();
