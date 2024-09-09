@@ -30,7 +30,8 @@ Leading Edge: Positioned as a pioneering platform among tourism websites.
 
 ## Follow the instructions if running this project on a local machine:
 => npm install
-
 => Set up Environment Variables
-
 => nodemon index.js
+
+## Profile Access for Admin:
+=> email: admin@gmail.com => Password : 1234567Kh#
